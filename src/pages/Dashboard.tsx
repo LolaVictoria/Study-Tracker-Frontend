@@ -2,8 +2,8 @@ import { useDueQuestions, useAnalytics } from '../hooks/useQuestions';
 import PracticeButton from '../components/PracticeButton';
 
 export default function Dashboard() {
-  const { data: dueQuestions, isLoading: dueLoading } = useDueQuestions();
-  const { data: stats, isLoading: statsLoading } = useAnalytics();
+  const { data: stats, isLoading: statsLoading, isError: statsError } = useAnalytics();
+  const { data: dueQuestions, isLoading: dueLoading, isError: dueError } = useDueQuestions();
  
   
   const totals = stats?.reduce(
@@ -17,6 +17,21 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-[#F6F3FF] relative overflow-x-hidden">
+      {(dueLoading || statsLoading) && (
+        <div className="bg-white/50 backdrop-blur-lg border border-white/80 rounded-[18px] p-4 mb-6 text-center">
+          <p className="font-mono text-xs text-[#6B6485]">
+            Waking up the server — this can take up to a minute after inactivity...
+          </p>
+        </div>
+      )}
+
+      {(dueError || statsError) && (
+        <div className="bg-rose-50 border border-rose-200 rounded-[18px] p-4 mb-6 text-center">
+          <p className="font-mono text-xs text-rose-600">
+            Couldn't reach the server. Try refreshing in a moment.
+          </p>
+        </div>
+      )}
       <div className="fixed w-[480px] h-[480px] rounded-full bg-[#EFEAFF] blur-[70px] opacity-50 -top-40 -left-30 z-0" />
       <div className="fixed w-[420px] h-[420px] rounded-full bg-[#E3FBF0] blur-[70px] opacity-50 -bottom-36 -right-24 z-0" />
       <div className="fixed w-[360px] h-[360px] rounded-full bg-[#FFF0E4] blur-[70px] opacity-50 top-[40%] right-[10%] z-0" />

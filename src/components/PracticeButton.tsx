@@ -19,9 +19,11 @@ export default function PracticeButton({ questionId }: PracticeButtonProps) {
 
   if (isOpen) {
     return (
+      <>
       <div className="flex gap-1">
         <button
           onClick={() => handleSelect('PERFECT')}
+         
           disabled={recordPractice.isPending}
           className="text-[10px] font-mono px-2 py-1 rounded-full bg-emerald-100 text-emerald-700"
         >
@@ -42,6 +44,10 @@ export default function PracticeButton({ questionId }: PracticeButtonProps) {
           Retry
         </button>
       </div>
+      {recordPractice.isError && (
+        <p className="text-[10px] text-rose-600 font-mono">Failed — try again</p>
+      )}
+       </>
     );
   }
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { loginUser } from '../lib/authApi';
 import { useAuthStore } from '../store/authStore';
 
@@ -9,6 +9,8 @@ export default function Login() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const sessionExpired = searchParams.get('expired') === 'true';
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -27,8 +29,8 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F6F3FF] relative overflow-hidden">
-      <div className="fixed w-[460px] h-[460px] rounded-full bg-[#EFEAFF] blur-[70px] opacity-50 -top-40 -right-30" />
-      <div className="fixed w-[380px] h-[380px] rounded-full bg-[#E3FBF0] blur-[70px] opacity-50 -bottom-36 -left-24" />
+      <div className="fixed w-115 h-115 rounded-full bg-[#EFEAFF] blur-[70px] opacity-50 -top-40 -right-30" />
+      <div className="fixed w-95 h-95 rounded-full bg-[#E3FBF0] blur-[70px] opacity-50 -bottom-36 -left-24" />
 
       <form
         onSubmit={handleSubmit}
@@ -40,6 +42,12 @@ export default function Login() {
         {error && (
           <p className="text-xs text-rose-600 bg-rose-50 border border-rose-200 rounded-lg px-3 py-2 mb-4">
             {error}
+          </p>
+        )}
+
+        {sessionExpired && !error && (
+          <p className="text-xs text-orange-700 bg-orange-50 border border-orange-200 rounded-lg px-3 py-2 mb-4">
+            Your session expired, please log in again.
           </p>
         )}
 
@@ -64,7 +72,7 @@ export default function Login() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-2.5 rounded-full bg-gradient-to-br from-violet-500 to-violet-400 text-white text-sm font-medium shadow-lg shadow-violet-300/40 disabled:opacity-60"
+          className="w-full py-2.5 rounded-full bg-linear-to-br from-violet-500 to-violet-400 text-white text-sm font-medium shadow-lg shadow-violet-300/40 disabled:opacity-60"
         >
           {isLoading ? 'Logging in...' : 'Log in'}
         </button>

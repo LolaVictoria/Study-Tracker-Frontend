@@ -32,7 +32,8 @@ export interface AddQuestionRequest {
   link: string;
   title: string;
   category: Category;
-  status: Status
+  status: Status;
+  notes : string;
 }
 
 export interface PracticeRequest {

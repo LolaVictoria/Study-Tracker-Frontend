@@ -35,8 +35,8 @@ export default function QuestionsList() {
 
   return (
     <div className="min-h-screen bg-[#F6F3FF] relative overflow-x-hidden">
-      <div className="fixed w-[460px] h-[460px] rounded-full bg-[#EFEAFF] blur-[70px] opacity-50 -top-40 -right-30 z-0" />
-      <div className="fixed w-[380px] h-[380px] rounded-full bg-[#E3FBF0] blur-[70px] opacity-50 -bottom-36 -left-24 z-0" />
+      <div className="fixed w-115 h-115 rounded-full bg-[#EFEAFF] blur-[70px] opacity-50 -top-40 -right-30 z-0" />
+      <div className="fixed w-95 h-95 rounded-full bg-[#E3FBF0] blur-[70px] opacity-50 -bottom-36 -left-24 z-0" />
 
       <div className="relative z-10 max-w-2xl mx-auto px-7 py-10">
         <div className="flex justify-between items-center mb-6">
@@ -44,14 +44,14 @@ export default function QuestionsList() {
           
           <button
                 onClick={() => setShowAddModal(true)}
-                className="font-medium text-sm text-white px-4.5 py-2.5 rounded-full bg-gradient-to-br from-violet-500 to-violet-400 shadow-lg shadow-violet-300/40"
+                className="font-medium text-sm text-white px-4.5 py-2.5 rounded-full bg-linear-to-br from-violet-500 to-violet-400 shadow-lg shadow-violet-300/40"
                 >
                 + Add question
           </button>
         </div>
 
 
-           <div className="grid grid-rows-2 flex flex-wrap gap-2 mb-5 ">
+           <div className="flex flex-col gap-2 mb-5">
               <div className='flex gap-x-2'>
                   <FilterPill
                     label="All"
@@ -67,15 +67,17 @@ export default function QuestionsList() {
                     />
                   ))}
                 </div>
-                <div className="grid grid-cols-4 w-px bg-[#6B6485]/25 mx-1" />
+                <div className="h-px bg-[#6B6485]/25" />
+                <div className='grid grid-cols-2 md:grid-cols-4 gap-3 '>
                   {CATEGORIES.map((c) => (
                     <FilterPill
-                      key={c}
-                      label={c.replace(/_/g, ' ').toLowerCase()}
-                      isActive={categoryFilter === c}
-                      onClick={() => setCategoryFilter(categoryFilter === c ? undefined : c)}
+                    key={c}
+                    label={c.replace(/_/g, ' ').toLowerCase()}
+                    isActive={categoryFilter === c}
+                    onClick={() => setCategoryFilter(categoryFilter === c ? undefined : c)}
                     />
                   ))}
+                </div>
               </div>
 
         {isLoading && <p className="font-mono text-xs text-[#6B6485]">Loading...</p>}
@@ -101,11 +103,11 @@ export default function QuestionsList() {
                       ✎
                   </button>
                   {confirmDeleteId === q.id ? (
-                  <div className="flex gap-1">
+                  <div className="flex flex-col items-end gap-1">
+                    <div className="flex gap-1">
                     <button
                       onClick={() => {
-                        deleteQuestion.mutate(q.id);
-                        setConfirmDeleteId(null);
+                        deleteQuestion.mutate(q.id, { onSuccess: () => setConfirmDeleteId(null) });
                       }}
                       className="text-[10px] font-mono px-2 py-1 rounded-lg bg-rose-500 text-white"
                     >
@@ -117,6 +119,10 @@ export default function QuestionsList() {
                     >
                       Cancel
                     </button>
+                  </div>
+                  {deleteQuestion.isError && (
+                      <p className="text-[10px] text-rose-600">Couldn't delete — try again</p>
+                    )}
                   </div>
                 ) : (
                   <button
