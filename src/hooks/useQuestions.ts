@@ -65,7 +65,7 @@ export function useUpdateStatus() {
 export function useUpdateQuestion() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, ...data }: { id: number; title: string; category?: Category; notes?: string }) => {
+    mutationFn: async ({ id, ...data }: { id: number; link: string; title: string; category?: Category; status?: Status; notes?: string }) => {
       const response = await api.patch<Question>(`/api/questions/${id}`, data);
       return response.data;
     },
@@ -74,6 +74,33 @@ export function useUpdateQuestion() {
     },
   });
 }
+
+export function useUpdateQuestionFull() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, ...data }: { id: number; link?: string; title?: string; category?: Category; status?: Status; notes?: string }) => {
+      const response = await api.patch<Question>(`/api/questions/${id}`, data);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['questions'] });
+    },
+  });
+}
+
+export function useUpdateNotes() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, notes }: { id: number; notes: string }) => {
+      const response = await api.patch<Question>(`/api/questions/notes/${id}`, { notes });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['questions'] });
+    },
+  });
+}
+
 export function useDeleteQuestion() {
   const queryClient = useQueryClient();
   return useMutation({

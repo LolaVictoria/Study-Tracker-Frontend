@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useUpdateQuestion } from '../hooks/useQuestions';
-import type { Question, Category } from '../types';
+import type { Question, Category, Status } from '../types';
+import { useState } from 'react';
 
 const CATEGORIES: Category[] = [
   'ARRAY', 'STRING', 'LINKED_LIST', 'STACK', 'QUEUE', 'TREE', 'GRAPH',
@@ -9,24 +10,35 @@ const CATEGORIES: Category[] = [
   'BIT_MANIPULATION', 'OTHER',
 ];
 
+const STATUSES: { value: Status; label: string }[] = [
+  { value: 'NEEDS_RETRY', label: 'Needs retry' },
+  { value: 'MEDIUM', label: 'Medium' },
+  { value: 'PERFECT', label: 'Perfect' },
+];
+
 interface EditQuestionModalProps {
   question: Question;
   onClose: () => void;
 }
 
 interface EditFormData {
+  link: string;
   title: string;
   category: Category | '';
   notes: string;
+  status: Status;
 }
 
 export default function EditQuestionModal({ question, onClose }: EditQuestionModalProps) {
   const updateQuestion = useUpdateQuestion();
+  const [selectedStatus, setSelectedStatus] = useState<Status>('NEEDS_RETRY');
   const { register, handleSubmit } = useForm<EditFormData>({
     defaultValues: {
       title: question.title,
+      link: question.link,
       category: question.category ?? '',
       notes: question.notes ?? '',
+      status: question.status ?? 'NEEDS_RETRY'
     },
   });
 
@@ -34,9 +46,11 @@ export default function EditQuestionModal({ question, onClose }: EditQuestionMod
     updateQuestion.mutate(
       {
         id: question.id,
+        link: data.link,
         title: data.title,
         category: data.category || undefined,
         notes: data.notes,
+        status: selectedStatus,
       },
       { onSuccess: () => onClose() }
     );
@@ -51,6 +65,11 @@ export default function EditQuestionModal({ question, onClose }: EditQuestionMod
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
+          <label className="block text-xs font-mono text-[#6B6485] mb-1">Link</label>
+          <input
+            {...register('link', { required: true })}
+            className="w-full mb-4 px-3 py-2 rounded-xl bg-white/70 border border-white/90 text-sm focus:outline-none focus:ring-2 focus:ring-violet-300"
+          />
           <label className="block text-xs font-mono text-[#6B6485] mb-1">Title</label>
           <input
             {...register('title', { required: true })}
@@ -68,6 +87,24 @@ export default function EditQuestionModal({ question, onClose }: EditQuestionMod
             ))}
           </select>
 
+          <label className="block text-xs font-mono text-[#6B6485] mb-2">How well do you know it?</label>
+          <div className="flex gap-2 mb-6">
+            {STATUSES.map((s) => (
+              <button
+                key={s.value}
+                type="button"
+                onClick={() => setSelectedStatus(s.value)}
+                className={`flex-1 font-mono text-[11px] py-2 rounded-xl border transition-colors ${
+                  selectedStatus === s.value
+                    ? 'bg-violet-500 text-white border-violet-500'
+                    : 'bg-white/60 text-[#6B6485] border-white/90'
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+
           <label className="block text-xs font-mono text-[#6B6485] mb-1">Notes</label>
           <textarea
             {...register('notes')}
@@ -78,7 +115,7 @@ export default function EditQuestionModal({ question, onClose }: EditQuestionMod
           <button
             type="submit"
             disabled={updateQuestion.isPending}
-            className="w-full py-2.5 rounded-full bg-gradient-to-br from-violet-500 to-violet-400 text-white text-sm font-medium shadow-lg shadow-violet-300/40 disabled:opacity-60"
+            className="w-full py-2.5 rounded-full bg-linear-to-br from-violet-500 to-violet-400 text-white text-sm font-medium shadow-lg shadow-violet-300/40 disabled:opacity-60"
           >
             {updateQuestion.isPending ? 'Saving...' : 'Save changes'}
           </button>

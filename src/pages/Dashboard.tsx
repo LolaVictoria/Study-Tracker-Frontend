@@ -91,7 +91,7 @@ export default function Dashboard() {
                       <span>{s.category}</span>
                       <span className="font-mono text-[11px] text-[#6B6485]">{total} solved</span>
                     </div>
-                    <div className="h-2 rounded-full bg-white/70 overflow-hidden flex">
+                    <div className="h-10 rounded-md bg-white/70 overflow-hidden flex">
                       <div className="bg-emerald-600" style={{ width: `${(s.perfect / total) * 100}%` }} />
                       <div className="bg-orange-500" style={{ width: `${(s.medium / total) * 100}%` }} />
                       <div className="bg-rose-500" style={{ width: `${(s.needsRetry / total) * 100}%` }} />
