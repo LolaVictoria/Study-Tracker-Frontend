@@ -1,11 +1,11 @@
 export type Status = 'PERFECT' | 'MEDIUM' | 'NEEDS_RETRY';
 
 export type Category =
-  | 'ARRAY' | 'STRING' | 'LINKED_LIST' | 'STACK' | 'QUEUE'
+  | 'ARRAY' | 'STRING' | 'LINKED_LIST' | 'INTEGER' | 'STACK' | 'QUEUE'
   | 'TREE' | 'GRAPH' | 'HEAP' | 'BACKTRACKING'
   | 'DYNAMIC_PROGRAMMING' | 'GREEDY' | 'SLIDING_WINDOW'
   | 'TWO_POINTERS' | 'BINARY_SEARCH' | 'HASHING'
-  | 'RECURSION' | 'MATH' | 'BIT_MANIPULATION' | 'OTHER';
+  | 'RECURSION' | 'MATH' | 'BIT_MANIPULATION'| 'INTERVAL' | 'TRIE' | 'GREEDY' | 'OTHER';
 
 export interface Question {
   id: number;

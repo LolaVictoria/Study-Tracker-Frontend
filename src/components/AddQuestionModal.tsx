@@ -5,10 +5,10 @@ import type { Category, Status, AddQuestionRequest } from '../types';
 import TextArea from './textarea';
 
 const CATEGORIES: Category[] = [
-  'ARRAY', 'STRING', 'LINKED_LIST', 'STACK', 'QUEUE', 'TREE', 'GRAPH',
+  'ARRAY', 'STRING', 'INTEGER', 'LINKED_LIST', 'STACK', 'QUEUE', 'TREE', 'GRAPH',
   'HEAP', 'BACKTRACKING', 'DYNAMIC_PROGRAMMING', 'GREEDY', 'SLIDING_WINDOW',
   'TWO_POINTERS', 'BINARY_SEARCH', 'HASHING', 'RECURSION', 'MATH',
-  'BIT_MANIPULATION', 'OTHER',
+  'BIT_MANIPULATION', 'INTERVAL', 'TRIE', 'GREEDY', 'OTHER',
 ];
 
 const STATUSES: { value: Status; label: string }[] = [
