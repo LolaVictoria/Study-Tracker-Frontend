@@ -4,10 +4,10 @@ import type { Question, Category, Status } from '../types';
 import { useState } from 'react';
 
 const CATEGORIES: Category[] = [
-  'ARRAY', 'STRING', 'LINKED_LIST', 'STACK', 'QUEUE', 'TREE', 'GRAPH',
+  'ARRAY', 'STRING', 'INTEGER', 'LINKED_LIST', 'STACK', 'QUEUE', 'TREE', 'GRAPH',
   'HEAP', 'BACKTRACKING', 'DYNAMIC_PROGRAMMING', 'GREEDY', 'SLIDING_WINDOW',
   'TWO_POINTERS', 'BINARY_SEARCH', 'HASHING', 'RECURSION', 'MATH',
-  'BIT_MANIPULATION', 'OTHER',
+  'BIT_MANIPULATION', 'TRIE', 'INTERVAL', 'GREEDY', 'OTHER',
 ];
 
 const STATUSES: { value: Status; label: string }[] = [

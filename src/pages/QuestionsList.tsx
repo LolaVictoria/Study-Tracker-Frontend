@@ -9,10 +9,10 @@ import QuestionCard from '../components/QuestionCard';
 
 const STATUSES: Status[] = ['PERFECT', 'MEDIUM', 'NEEDS_RETRY'];
 const CATEGORIES: Category[] = [
-  'ARRAY', 'STRING', 'LINKED_LIST', 'STACK', 'QUEUE', 'TREE', 'GRAPH',
+  'ARRAY', 'STRING', 'LINKED_LIST', 'INTEGER', 'STACK', 'QUEUE', 'TREE', 'GRAPH',
   'HEAP', 'BACKTRACKING', 'DYNAMIC_PROGRAMMING', 'GREEDY', 'SLIDING_WINDOW',
   'TWO_POINTERS', 'BINARY_SEARCH', 'HASHING', 'RECURSION', 'MATH',
-  'BIT_MANIPULATION', 'OTHER',
+  'BIT_MANIPULATION', 'INTERVAL', 'TRIE', 'GREEDY', 'OTHER',
 ];
 
 export default function QuestionsList() {
